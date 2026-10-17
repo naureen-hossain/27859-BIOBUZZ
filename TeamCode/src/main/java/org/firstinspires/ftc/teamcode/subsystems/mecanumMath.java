@@ -12,8 +12,8 @@ public class mecanumMath {
             Gamepad gamepad
     ) {
 
-        double y = -gamepad.left_stick_y;
-        double x = gamepad.left_stick_x;
+        double y = gamepad.left_stick_y;
+        double x = -gamepad.left_stick_x;
         double rotation = gamepad.right_stick_x;
 
         double frontLeftPower  = y + x + rotation;

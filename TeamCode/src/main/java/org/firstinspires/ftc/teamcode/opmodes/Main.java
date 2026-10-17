@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -43,6 +42,9 @@ public class Main extends LinearOpMode {
 
         waitForStart();
 
+        boolean previousB = false;
+        double bufferPower = 1;
+
         while (opModeIsActive()) {
             mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
 
@@ -52,11 +54,16 @@ public class Main extends LinearOpMode {
                 intake.setPower(0);
             }
 
-            if (gamepad1.b) {
-                buffer.setPower(-1);
-            } else if (gamepad1.x) {
+            if (gamepad1.b && !previousB) {
+                bufferPower = -bufferPower;
+                buffer.setPower(bufferPower);
+            }
+
+            if (gamepad1.x) {
                 buffer.setPower(0);
             }
+
+            previousB = gamepad1.b;
         }
 
         frontLeft.setPower(0);

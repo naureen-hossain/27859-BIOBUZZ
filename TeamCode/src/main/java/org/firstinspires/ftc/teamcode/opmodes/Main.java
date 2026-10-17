@@ -17,7 +17,6 @@ public class Main extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-
         intake = hardwareMap.get(DcMotor.class, "intake");
 
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -28,32 +27,26 @@ public class Main extends LinearOpMode {
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
 
-        if (isStopRequested()) {
-            return;
-        }
-
-        boolean previousR1 = false;
-        double intakePower = -1;
-
         while (opModeIsActive()) {
             mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
 
-            if (gamepad1.right_bumper && !previousR1) {
-                intakePower = -intakePower;
-                intake.setPower(intakePower);
-            }
-
-            if (gamepad1.left_bumper) {
+            if (gamepad1.right_bumper) {
+                intake.setPower(-1);
+            } else if (gamepad1.left_bumper) {
                 intake.setPower(0);
             }
-
-            previousR1 = gamepad1.right_bumper;
         }
 
         frontLeft.setPower(0);

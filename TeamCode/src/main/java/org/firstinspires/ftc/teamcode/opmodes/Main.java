@@ -38,14 +38,22 @@ public class Main extends LinearOpMode {
             return;
         }
 
+        boolean previousR1 = false;
+        double intakePower = -1;
+
         while (opModeIsActive()) {
             mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
 
-            if (gamepad1.right_bumper) {
-                intake.setPower(1);
-            } else if (gamepad1.left_bumper) {
+            if (gamepad1.right_bumper && !previousR1) {
+                intakePower = -intakePower;
+                intake.setPower(intakePower);
+            }
+
+            if (gamepad1.left_bumper) {
                 intake.setPower(0);
             }
+
+            previousR1 = gamepad1.right_bumper;
         }
 
         frontLeft.setPower(0);

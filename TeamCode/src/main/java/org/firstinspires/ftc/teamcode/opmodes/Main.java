@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.subsystems.mecanumMath;
 @TeleOp(name = "Main TeleOp")
 public class Main extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
-    public DcMotor intake;
+    public DcMotor intake, buffer;
 
     @Override
     public void runOpMode() {
@@ -18,6 +18,7 @@ public class Main extends LinearOpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         intake = hardwareMap.get(DcMotor.class, "intake");
+        buffer = hardwareMap.get(DcMotor.class, "buffer");
 
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
@@ -47,6 +48,12 @@ public class Main extends LinearOpMode {
             } else if (gamepad1.left_bumper) {
                 intake.setPower(0);
             }
+
+            if (gamepad1.b) {
+                buffer.setPower(1);
+            } else if (gamepad1.x) {
+                buffer.setPower(0);
+            }
         }
 
         frontLeft.setPower(0);
@@ -54,5 +61,6 @@ public class Main extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
         intake.setPower(0);
+        buffer.setPower(0);
     }
 }

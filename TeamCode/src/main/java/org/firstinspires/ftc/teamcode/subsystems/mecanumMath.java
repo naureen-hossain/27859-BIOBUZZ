@@ -17,7 +17,7 @@ public class mecanumMath {
         double x = -gamepad.left_stick_x;
         double rotation = gamepad.right_stick_x;
 
-        double deadzone = 0.05;
+        double deadzone = 0.15;
 
         if (Math.abs(y) < deadzone) y = 0;
         if (Math.abs(x) < deadzone) x = 0;

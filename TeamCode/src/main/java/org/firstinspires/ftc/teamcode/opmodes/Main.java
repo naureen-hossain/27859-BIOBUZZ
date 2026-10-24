@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.subsystems.mecanumMath;
+import org.firstinspires.ftc.teamcode.subsystems.innerControl;
 
 @TeleOp(name = "Main TeleOp")
 public class Main extends LinearOpMode {
@@ -37,6 +38,8 @@ public class Main extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        innerControl.resetControls();
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -46,36 +49,11 @@ public class Main extends LinearOpMode {
             return;
         }
 
-        boolean previousR1 = false;
-        boolean previousB = false;
-        double intakePower = 0;
-        double bufferPower = 0;
-
         while (opModeIsActive()) {
             mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
 
-            if (gamepad1.right_bumper && !previousR1) {
-                intakePower = (intakePower == 0) ? -1 : -intakePower;
-            }
-
-            if (gamepad1.left_bumper) {
-                intakePower = 0;
-            }
-
-            intake.setPower(intakePower);
-
-            if (gamepad1.b && !previousB) {
-                bufferPower = (bufferPower == 0) ? 1 : -bufferPower;
-            }
-
-            if (gamepad1.x) {
-                bufferPower = 0;
-            }
-
-            buffer.setPower(bufferPower);
-
-            previousR1 = gamepad1.right_bumper;
-            previousB = gamepad1.b;
+            innerControl.controlBalls(intake, gamepad1);
+            innerControl.controlBuffer(buffer, gamepad1);
         }
 
         frontLeft.setPower(0);

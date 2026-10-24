@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.subsystems.mecanumMath;
-import org.firstinspires.ftc.teamcode.subsystems.innerControl;
 
 @TeleOp(name = "Main TeleOp")
 public class Main extends LinearOpMode {
@@ -44,8 +43,7 @@ public class Main extends LinearOpMode {
 
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         flywheel.setVelocityPIDFCoefficients(22.0, 0.0, 0.0, 11.7);
-
-        innerControl.resetControls();
+        flywheel.setVelocity(0);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -56,12 +54,50 @@ public class Main extends LinearOpMode {
             return;
         }
 
+        boolean previousR1 = false;
+        boolean previousB = false;
+        double intakePower = 0;
+        double bufferPower = 0;
+
+        double targetSpeed = 911;
+        double idleSpeed = 400;
+
         while (opModeIsActive()) {
             mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
 
-            innerControl.controlBalls(intake, gamepad1);
-            innerControl.controlBuffer(buffer, gamepad1);
-            innerControl.controlFlywheel(flywheel, gamepad1);
+            if (gamepad1.right_bumper && !previousR1) {
+                intakePower = (intakePower == 0) ? -1 : -intakePower;
+            }
+
+            if (gamepad1.left_bumper) {
+                intakePower = 0;
+            }
+
+            intake.setPower(intakePower);
+
+            if (gamepad1.b && !previousB) {
+                bufferPower = (bufferPower == 0) ? 1 : -bufferPower;
+            }
+
+            if (gamepad1.x) {
+                bufferPower = 0;
+            }
+
+            buffer.setPower(bufferPower);
+
+            previousR1 = gamepad1.right_bumper;
+            previousB = gamepad1.b;
+
+            if (gamepad1.right_trigger > 0.1) {
+                flywheel.setVelocity(targetSpeed);
+            } else if (gamepad1.left_trigger > 0.1) {
+                flywheel.setVelocity(0);
+            } else {
+                flywheel.setVelocity(idleSpeed);
+            }
+
+            telemetry.addData("Flywheel Actual", flywheel.getVelocity());
+            telemetry.update();
         }
 
         frontLeft.setPower(0);

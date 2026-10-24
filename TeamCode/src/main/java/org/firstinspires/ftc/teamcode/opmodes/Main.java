@@ -65,7 +65,7 @@ public class Main extends LinearOpMode {
             intake.setPower(intakePower);
 
             if (gamepad1.b && !previousB) {
-                bufferPower = (bufferPower == 0) ? -1 : -bufferPower;
+                bufferPower = (bufferPower == 0) ? 1 : -bufferPower;
             }
 
             if (gamepad1.x) {

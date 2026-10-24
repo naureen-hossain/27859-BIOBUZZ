@@ -52,7 +52,10 @@ public class Main extends LinearOpMode {
         double bufferPower = 0;
 
         while (opModeIsActive()) {
-            mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
+            frontLeft.setPower(0);
+            frontRight.setPower(0);
+            backLeft.setPower(0);
+            backRight.setPower(0);
 
             if (gamepad1.right_bumper && !previousR1) {
                 intakePower = (intakePower == 0) ? -1 : -intakePower;

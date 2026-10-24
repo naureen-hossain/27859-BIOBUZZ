@@ -59,12 +59,9 @@ public class Main extends LinearOpMode {
         while (opModeIsActive()) {
             mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
 
-            innerControl.controlFlywheel(flywheel, gamepad1);
             innerControl.controlBalls(intake, gamepad1);
             innerControl.controlBuffer(buffer, gamepad1);
-
-            telemetry.addData("Flywheel Actual", flywheel.getVelocity());
-            telemetry.update();
+            innerControl.controlFlywheel(flywheel, gamepad1);
         }
 
         frontLeft.setPower(0);

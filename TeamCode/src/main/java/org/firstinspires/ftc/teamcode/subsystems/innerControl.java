@@ -13,16 +13,13 @@ public class innerControl {
     private static double intakePower = 0;
     private static double bufferPower = 0;
 
-    public static void controlFlywheel(DcMotorEx flywheelOne, DcMotorEx flywheelTwo, Gamepad gamepad) {
+    public static void controlFlywheel(DcMotorEx flywheel, Gamepad gamepad) {
         if (gamepad.right_trigger > 0.1) {
-            flywheelOne.setVelocity(targetSpeed);
-            flywheelTwo.setVelocity(-targetSpeed);
+            flywheel.setVelocity(targetSpeed);
         } else if (gamepad.left_trigger > 0.1) {
-            flywheelOne.setVelocity(0);
-            flywheelTwo.setVelocity(0);
+            flywheel.setVelocity(0);
         } else {
-            flywheelOne.setVelocity(idleSpeed);
-            flywheelTwo.setVelocity(-idleSpeed);
+            flywheel.setVelocity(idleSpeed);
         }
     }
 

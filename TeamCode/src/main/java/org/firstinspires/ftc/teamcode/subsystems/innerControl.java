@@ -39,7 +39,7 @@ public class innerControl {
 
     public static void controlBuffer(DcMotor buffer, Gamepad gamepad) {
         if (gamepad.b && !previousB) {
-            bufferPower = (bufferPower == 0) ? -bufferSpeed : -bufferPower;
+            bufferPower = (bufferPower == 0) ? bufferSpeed : -bufferPower;
         }
 
         if (gamepad.x) {

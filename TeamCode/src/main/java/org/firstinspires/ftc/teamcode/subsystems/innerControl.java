@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 public class innerControl {
     private static double targetSpeed = 911;
     private static double idleSpeed = 400;
+    private static double bufferSpeed = 0.3;
 
     private static boolean previousR1 = false;
     private static boolean previousB = false;
@@ -38,7 +39,7 @@ public class innerControl {
 
     public static void controlBuffer(DcMotor buffer, Gamepad gamepad) {
         if (gamepad.b && !previousB) {
-            bufferPower = (bufferPower == 0) ? -0.5 : -bufferPower;
+            bufferPower = (bufferPower == 0) ? -bufferSpeed : -bufferPower;
         }
 
         if (gamepad.x) {

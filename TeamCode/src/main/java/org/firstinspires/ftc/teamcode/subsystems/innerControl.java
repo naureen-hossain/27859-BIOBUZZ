@@ -25,12 +25,10 @@ public class innerControl {
     }
 
     public static void controlBalls(DcMotor intake, Gamepad gamepad) {
-        if (gamepad.right_bumper && !previousR1) {
-            intakePower = (intakePower == 0) ? -1 : -intakePower;
-        }
-
         if (gamepad.left_bumper) {
             intakePower = 0;
+        } else if (gamepad.right_bumper && !previousR1) {
+            intakePower = (intakePower == 0) ? -1 : -intakePower;
         }
 
         intake.setPower(intakePower);
@@ -38,12 +36,10 @@ public class innerControl {
     }
 
     public static void controlBuffer(DcMotor buffer, Gamepad gamepad) {
-        if (gamepad.b && !previousB) {
-            bufferPower = (bufferPower == 0) ? bufferSpeed : -bufferPower;
-        }
-
         if (gamepad.x) {
             bufferPower = 0;
+        } else if (gamepad.b && !previousB) {
+            bufferPower = (bufferPower == 0) ? bufferSpeed : -bufferPower;
         }
 
         buffer.setPower(bufferPower);

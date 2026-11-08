@@ -23,6 +23,7 @@ public class Main extends LinearOpMode {
         intake = hardwareMap.get(DcMotor.class, "intake");
         buffer = hardwareMap.get(DcMotor.class, "buffer");
         flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
+        flywheel.setDirection(DcMotor.Direction.REVERSE);
 
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);

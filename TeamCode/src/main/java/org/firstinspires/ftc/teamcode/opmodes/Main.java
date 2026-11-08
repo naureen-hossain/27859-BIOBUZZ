@@ -66,6 +66,7 @@ public class Main extends LinearOpMode {
             innerControl.controlFlywheel(flywheel, gamepad1);
 
             telemetry.addData("Flywheel Actual", flywheel.getVelocity());
+            telemetry.addData("Buffer Power", buffer.getPower());
             telemetry.update();
         }
 

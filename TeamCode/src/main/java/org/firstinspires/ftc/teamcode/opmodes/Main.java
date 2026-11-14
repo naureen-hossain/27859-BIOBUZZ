@@ -69,10 +69,10 @@ public class Main extends LinearOpMode {
             innerControl.controlFlywheel(flywheel, gamepad1);
 
             // Turret control
-            if (gamepad2.right_stick_x > 0.2) {
+            if (gamepad1.dpad_right) {
                 turret.setPosition(1.0);
             }
-            else if (gamepad2.right_stick_x < -0.2) {
+            else if (gamepad1.dpad_left) {
                 turret.setPosition(0.0);
             }
 

@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.subsystems.mecanumMath;
 import org.firstinspires.ftc.teamcode.subsystems.innerControl;
@@ -14,7 +13,6 @@ public class Main extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public DcMotor intake, buffer;
     public DcMotorEx flywheel;
-    public Servo turret;
 
     @Override
     public void runOpMode() {
@@ -26,7 +24,6 @@ public class Main extends LinearOpMode {
         buffer = hardwareMap.get(DcMotor.class, "buffer");
         flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setDirection(DcMotor.Direction.REVERSE);
-        turret = hardwareMap.get(Servo.class, "turret");
 
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
@@ -67,14 +64,6 @@ public class Main extends LinearOpMode {
             innerControl.controlBalls(intake, gamepad1);
             innerControl.controlBuffer(buffer, gamepad1);
             innerControl.controlFlywheel(flywheel, gamepad1);
-
-            // Turret control
-            if (gamepad1.dpad_right) {
-                turret.setPosition(1.0);
-            }
-            else if (gamepad1.dpad_left) {
-                turret.setPosition(0.0);
-            }
 
             telemetry.addData("Flywheel Actual", flywheel.getVelocity());
             telemetry.addData("Buffer Power", buffer.getPower());

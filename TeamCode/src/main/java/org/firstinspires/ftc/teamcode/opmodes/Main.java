@@ -67,6 +67,8 @@ public class Main extends LinearOpMode {
 
             telemetry.addData("Flywheel Actual", flywheel.getVelocity());
             telemetry.addData("Buffer Power", buffer.getPower());
+            telemetry.addData("Buffer Direction", buffer.getPower() == 0 ? "Stopped" : buffer.getPower() > 0 ? "Reversed" : "Forward");
+
             telemetry.update();
         }
 

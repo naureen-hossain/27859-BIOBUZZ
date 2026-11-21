@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.subsystems.mecanumMath;
 import org.firstinspires.ftc.teamcode.subsystems.innerControl;
@@ -13,6 +14,11 @@ public class Main extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public DcMotor intake, buffer;
     public DcMotorEx flywheel;
+    public Servo turret;
+
+    private static final double TURRET_SPEED = 1;
+    private static final double TURRET_DEADZONE = 0.1;
+    private static final double TURRET_CENTER = 0.5;
 
     @Override
     public void runOpMode() {
@@ -23,6 +29,8 @@ public class Main extends LinearOpMode {
         intake = hardwareMap.get(DcMotor.class, "intake");
         buffer = hardwareMap.get(DcMotor.class, "buffer");
         flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
+        turret = hardwareMap.get(Servo.class, "turret");
+
         flywheel.setDirection(DcMotor.Direction.REVERSE);
 
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -49,6 +57,9 @@ public class Main extends LinearOpMode {
 
         innerControl.resetControls();
 
+        double turretPosition = TURRET_CENTER;
+        turret.setPosition(turretPosition);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -58,6 +69,8 @@ public class Main extends LinearOpMode {
             return;
         }
 
+        double lastTime = getRuntime();
+
         while (opModeIsActive()) {
             mecanumMath.driveMecanum(frontLeft, frontRight, backLeft, backRight, gamepad1);
 
@@ -65,10 +78,23 @@ public class Main extends LinearOpMode {
             innerControl.controlBuffer(buffer, gamepad1);
             innerControl.controlFlywheel(flywheel, gamepad1);
 
+            double currentTime = getRuntime();
+            double deltaTime = Math.max(0.0, Math.min(currentTime - lastTime, 0.1));
+            lastTime = currentTime;
+
+            double turretInput = gamepad2.left_stick_x;
+
+            if (Math.abs(turretInput) > TURRET_DEADZONE) {
+                turretPosition -= turretInput * TURRET_SPEED * deltaTime;
+                turretPosition = Math.max(0.0, Math.min(1.0, turretPosition));
+            }
+
+            turret.setPosition(turretPosition);
+
             telemetry.addData("Flywheel Actual", flywheel.getVelocity());
             telemetry.addData("Buffer Power", buffer.getPower());
             telemetry.addData("Buffer Direction", buffer.getPower() == 0 ? "Stopped" : buffer.getPower() > 0 ? "Reversed" : "Forward");
-
+            telemetry.addData("Turret Position", turretPosition);
             telemetry.update();
         }
 

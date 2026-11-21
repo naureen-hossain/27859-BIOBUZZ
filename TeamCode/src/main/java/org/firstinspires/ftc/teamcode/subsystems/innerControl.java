@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class innerControl {
-    private static double targetSpeed = 911;
-    private static double idleSpeed = 400;
+    private static double targetSpeed = 600;
+    private static double idleSpeed = 600;
     private static double bufferSpeed = 0.5;
 
     private static boolean previousR1 = false;
@@ -25,10 +25,12 @@ public class innerControl {
     }
 
     public static void controlBalls(DcMotor intake, Gamepad gamepad) {
+        if (gamepad.right_bumper && !previousR1) {
+            intakePower = (intakePower == 0) ? -1 : -intakePower;
+        }
+
         if (gamepad.left_bumper) {
             intakePower = 0;
-        } else if (gamepad.right_bumper && !previousR1) {
-            intakePower = (intakePower == 0) ? -1 : -intakePower;
         }
 
         intake.setPower(intakePower);
@@ -36,10 +38,12 @@ public class innerControl {
     }
 
     public static void controlBuffer(DcMotor buffer, Gamepad gamepad) {
+        if (gamepad.b && !previousB) {
+            bufferPower = (bufferPower == 0) ? -bufferSpeed : -bufferPower;
+        }
+
         if (gamepad.x) {
             bufferPower = 0;
-        } else if (gamepad.b && !previousB) {
-            bufferPower = (bufferPower == 0) ? bufferSpeed : -bufferPower;
         }
 
         buffer.setPower(bufferPower);

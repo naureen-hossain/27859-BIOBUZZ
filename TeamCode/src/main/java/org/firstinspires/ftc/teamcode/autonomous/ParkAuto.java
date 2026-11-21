@@ -10,7 +10,8 @@ public class ParkAuto extends LinearOpMode {
     private DcMotor frontLeft, frontRight, backLeft, backRight;
 
     private static final double DRIVE_POWER = 0.30;
-    private static final long PARK_TIME_MS = 350;
+    private static final long FORWARD_TIME_MS = 300;
+    private static final long PARK_TIME_MS = 850;
 
     @Override
     public void runOpMode() {
@@ -41,6 +42,7 @@ public class ParkAuto extends LinearOpMode {
         if (isStopRequested()) return;
 
         try {
+            driveForward(FORWARD_TIME_MS);
             strafeRight(PARK_TIME_MS);
         } finally {
             stopDrive();
@@ -50,9 +52,14 @@ public class ParkAuto extends LinearOpMode {
         telemetry.update();
     }
 
+    private void driveForward(long duration) {
+        drive(DRIVE_POWER, DRIVE_POWER,
+              DRIVE_POWER, DRIVE_POWER, duration);
+    }
+
     private void strafeRight(long duration) {
-        drive(DRIVE_POWER, -DRIVE_POWER,
-              -DRIVE_POWER, DRIVE_POWER, duration);
+        drive(-DRIVE_POWER, DRIVE_POWER,
+               DRIVE_POWER, -DRIVE_POWER, duration);
     }
 
     private void drive(double fl, double fr, double bl, double br, long duration) {

@@ -53,8 +53,8 @@ public class ParkAuto extends LinearOpMode {
     }
 
     private void driveForward(long duration) {
-        drive(DRIVE_POWER, DRIVE_POWER,
-              DRIVE_POWER, DRIVE_POWER, duration);
+        drive(-DRIVE_POWER, -DRIVE_POWER,
+              -DRIVE_POWER, -DRIVE_POWER, duration);
     }
 
     private void strafeRight(long duration) {

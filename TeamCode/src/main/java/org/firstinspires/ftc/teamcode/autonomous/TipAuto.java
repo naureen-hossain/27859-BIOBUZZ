@@ -14,9 +14,9 @@ public class TipAuto extends LinearOpMode {
 
     private static final double DRIVE_POWER = 0.35;
     private static final double TURN_POWER = 0.30;
-    private static final double INTAKE_POWER = -1.0;
+    private static final double INTAKE_POWER = -0.8;
     private static final double BUFFER_POWER = 0.5;
-    private static final double FLYWHEEL_SPEED = 911;
+    private static final double FLYWHEEL_SPEED = 600;
 
     private static final long SLIGHT_FORWARD_MS = 350;
     private static final long AFTER_SHOOT_FORWARD_MS = 500;
@@ -132,23 +132,23 @@ public class TipAuto extends LinearOpMode {
     }
 
     private void driveForward(long duration) {
-        drive( DRIVE_POWER, DRIVE_POWER,
-               DRIVE_POWER, DRIVE_POWER, duration);
-    }
-
-    private void driveBackward(long duration) {
         drive(-DRIVE_POWER, -DRIVE_POWER,
               -DRIVE_POWER, -DRIVE_POWER, duration);
     }
 
+    private void driveBackward(long duration) {
+        drive(DRIVE_POWER, DRIVE_POWER,
+              DRIVE_POWER, DRIVE_POWER, duration);
+    }
+
     private void strafeLeft(long duration) {
-        drive(-DRIVE_POWER, DRIVE_POWER,
-               DRIVE_POWER, -DRIVE_POWER, duration);
+        drive(DRIVE_POWER, -DRIVE_POWER,
+              -DRIVE_POWER, DRIVE_POWER, duration);
     }
 
     private void turnLeft(long duration) {
-        drive(-TURN_POWER, TURN_POWER,
-              -TURN_POWER, TURN_POWER, duration);
+        drive(TURN_POWER, -TURN_POWER,
+              TURN_POWER, -TURN_POWER, duration);
     }
 
     private void drive(double fl, double fr, double bl, double br, long duration) {

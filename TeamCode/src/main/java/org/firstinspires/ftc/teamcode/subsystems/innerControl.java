@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class innerControl {
-    private static double targetSpeed = 600;
-    private static double idleSpeed = 600;
+    private static double targetSpeed = 625;
+    private static double idleSpeed = 625;
     private static double bufferSpeed = 0.5;
 
     private static boolean previousR1 = false;
